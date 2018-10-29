@@ -1,0 +1,29 @@
+{
+  "name": "super-mario-bros-3",
+  "version": "1.0.0",
+  "description": "A clone of the first level of Super Mario Bros. 3 written in JavaScript.",
+  "main": "src/entry.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "webpack": "webpack --watch --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremiahkellick/super-mario-bros-3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeremiahkellick/super-mario-bros-3/issues"
+  },
+  "homepage": "https://github.com/jeremiahkellick/super-mario-bros-3",
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
+  }
+}
