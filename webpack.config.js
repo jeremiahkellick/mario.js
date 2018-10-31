@@ -18,6 +18,18 @@ module.exports = {
             presets: ['@babel/env']
           }
         },
+      },
+      {
+        test: /\.(png|jpg|gif|mp3)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[hash]-[name].[ext]',
+              outputPath: 'images'
+            }
+          }
+        ]
       }
     ]
   },

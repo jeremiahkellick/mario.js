@@ -18,7 +18,11 @@ class GameObject {
   }
 
   update() {
-    this.components.forEach(component => component.handleUpdating());
+    this.components.forEach(component => component.update());
+  }
+
+  lateUpdate() {
+    this.components.forEach(component => component.lateUpdate());
   }
 
   destroy() {

@@ -1,11 +1,13 @@
 class Component {
   constructor() {
-    this.started = false;
+    Component.unstarted.add(this);
   }
 
   start() {}
 
   update() {}
+
+  lateUpdate() {}
 
   onDestroy() {}
 
@@ -16,26 +18,19 @@ class Component {
   requireComponent(componentClass) {
     const component = this.getComponent(componentClass);
     if (!component) {
-      throw new ComponentRequiredError(
-        `${this.constructor.name} requires ${componentClass.name}`
-      );
+      throw `${this.constructor.name} requires ${componentClass.name}`;
     }
     return component;
   }
 
-  startIfNotStarted() {
-    if (!this.started) {
-      this.started = true;
-      this.start();
-    }
-  }
-
-  handleUpdating() {
-    this.startIfNotStarted();
-    this.update();
+  static start() {
+    this.unstarted.forEach(component => {
+      component.start();
+      this.unstarted.delete(component);
+    });
   }
 }
 
-class ComponentRequiredError extends Error {}
+Component.unstarted = new Set();
 
 export default Component;

@@ -1,5 +1,6 @@
 import Component from '../Component';
 import Transform from '../Transform';
+import Vector from '../../Vector';
 
 class Renderer extends Component {
   constructor() {
@@ -13,9 +14,36 @@ class Renderer extends Component {
 
   draw(ctx) {}
 
-  handleDrawing(ctx) {
-    this.startIfNotStarted();
-    this.draw(ctx);
+  drawImage(
+    ctx,
+    image,
+    position,
+    size,
+    offset = Vector.zero,
+    bottom = false,
+    flipped = false
+  ) {
+    let { x, y } = this.transform.position.plus(offset);
+    x = Math.floor(x - size.x);
+    y = Math.floor(y - size.y * (bottom ? 2 : 1));
+    let prevCtxTransform = ctx.currentTransform;
+    if (flipped) {
+      ctx.translate(x + size.x * 2, y);
+      ctx.scale(-1,1);
+    }
+    ctx.beginPath();
+    ctx.drawImage(
+      image,
+      position.x,
+      position.y,
+      size.x,
+      size.y,
+      flipped ? 0 : x,
+      flipped ? 0 : y,
+      size.x * 2,
+      size.y * 2
+    );
+    ctx.currentTransform = ctx.prevCtxTransform;
   }
 
   onDestroy() {
