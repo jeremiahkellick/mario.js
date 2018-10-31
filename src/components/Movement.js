@@ -5,11 +5,11 @@ import Time from '../Time';
 import Collider from './Collider';
 import Input from './Input';
 
-const gravity = new Vector(0, 900);
+const gravity = new Vector(0, 1350);
 const airAcceleration = 200;
 const groundAcceleration = 200;
 const groundDeceleration = 200;
-const maxSpeed = 150;
+const maxSpeed = 165;
 
 class Movement extends Component {
   constructor() {
@@ -17,6 +17,7 @@ class Movement extends Component {
     this.velocity = Vector.zero;
     this.onGround = false;
     this.skidding = false;
+    this.lastJumped = null;
   }
 
   start() {
@@ -31,6 +32,7 @@ class Movement extends Component {
     if (this.input) {
       const move = this.input.move;
       const jump = this.input.jump;
+      const jumpDown = this.input.jumpDown;
       let acceleration = this.onGround ? groundAcceleration : airAcceleration;
       let frameAcceleration = acceleration * Time.deltaTime;
       if (Math.sign(this.velocity.x) !== Math.sign(move)
@@ -52,8 +54,12 @@ class Movement extends Component {
         if (this.velocity.x < 0) this.velocity.x += frameDeceleration;
       }
 
-      if (this.onGround && jump) {
-        this.velocity.y = -500;
+      if (jump && this.lastJumped && new Date() - this.lastJumped <= 400) {
+        this.velocity.y -= 11000 / (new Date() - this.lastJumped + 2000);
+      }
+      if (this.onGround && jumpDown) {
+        this.lastJumped = new Date();
+        this.velocity.y = -350;
       }
     }
 

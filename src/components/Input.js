@@ -24,13 +24,17 @@ class Input extends Component {
     return move;
   }
 
-  get jump() {
+  get jumpDown() {
     if (this._shouldJump) {
       this._shouldJump = false;
       return true;
     } else {
       return false;
     }
+  }
+
+  get jump() {
+    return key.isPressed('space');
   }
 }
 
