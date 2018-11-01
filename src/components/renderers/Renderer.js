@@ -26,7 +26,7 @@ class Renderer extends Component {
     let { x, y } = this.transform.position.plus(offset);
     x = Math.floor(x - size.x);
     y = Math.floor(y - size.y * (bottom ? 2 : 1));
-    let prevCtxTransform = ctx.currentTransform;
+    ctx.save();
     if (flipped) {
       ctx.translate(x + size.x * 2, y);
       ctx.scale(-1,1);
@@ -43,7 +43,7 @@ class Renderer extends Component {
       size.x * 2,
       size.y * 2
     );
-    ctx.currentTransform = ctx.prevCtxTransform;
+    ctx.restore();
   }
 
   onDestroy() {

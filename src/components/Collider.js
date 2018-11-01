@@ -49,11 +49,11 @@ class Collider extends Component {
         el => Math.abs(el)
       );
       if (collider.oneDirection) {
-        if (depth.y > 0 && depth.y < this.size.y / 2) {
-          return new Vector(0, depth.y);
+        if (depth.y > 0 && depth.y < this.size.y / 4) {
+          return { collider, depth: new Vector(0, depth.y) };
         }
       } else {
-        return depth;
+        return { collider, depth };
       }
     }
     return null;

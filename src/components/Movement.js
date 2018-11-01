@@ -3,88 +3,156 @@ import Vector from '../Vector';
 import Transform from './Transform';
 import Time from '../Time';
 import Collider from './Collider';
-import Input from './Input';
-
-const gravity = new Vector(0, 1350);
-const airAcceleration = 200;
-const groundAcceleration = 200;
-const groundDeceleration = 200;
-const maxSpeed = 165;
+import Input from './inputs/Input';
+import Health from './Health';
 
 class Movement extends Component {
-  constructor() {
+  constructor({
+    gravity,
+    airAcceleration,
+    groundAcceleration,
+    speed,
+    accelerate
+  }) {
     super();
     this.velocity = Vector.zero;
     this.onGround = false;
     this.skidding = false;
     this.lastJumped = null;
+    this.gravity = gravity || new Vector(0, 1800);
+    this.airAcceleration = airAcceleration || 0;
+    this.groundAcceleration = groundAcceleration === undefined
+                              ? 200 : groundAcceleration;
+    this.speed = speed === undefined ? 165 : speed;
+    this.accelerate = accelerate === undefined ? false : accelerate;
   }
 
   start() {
     this.transform = this.requireComponent(Transform);
     this.collider = this.requireComponent(Collider);
     this.input = this.getComponent(Input);
+    this.health = this.getComponent(Health);
   }
 
   update() {
     this.skidding = false;
-    this.velocity = this.velocity.plus(gravity.times(Time.deltaTime));
+    this.velocity = this.velocity.plus(this.gravity.times(Time.deltaTime));
     if (this.input) {
       const move = this.input.move;
-      const jump = this.input.jump;
       const jumpDown = this.input.jumpDown;
-      let acceleration = this.onGround ? groundAcceleration : airAcceleration;
-      let frameAcceleration = acceleration * Time.deltaTime;
-      if (Math.sign(this.velocity.x) !== Math.sign(move)
-          && Math.sign(this.velocity.x) !== 0
-          && Math.sign(move) !== 0
-          && this.onGround) {
+      const jump = this.input.jump;
 
-        frameAcceleration *= 3;
-        this.skidding = true;
-      }
-      this.velocity.x += move * frameAcceleration;
-      if (this.velocity.x > maxSpeed) this.velocity.x = maxSpeed;
-      if (this.velocity.x < -maxSpeed) this.velocity.x = -maxSpeed;
-
-      const frameDeceleration = groundDeceleration * Time.deltaTime;
-      if (this.onGround && move === 0) {
-        if (Math.abs(this.velocity.x) < frameDeceleration) this.velocity.x = 0;
-        if (this.velocity.x > 0) this.velocity.x -= frameDeceleration;
-        if (this.velocity.x < 0) this.velocity.x += frameDeceleration;
-      }
-
-      if (jump && this.lastJumped && new Date() - this.lastJumped <= 400) {
-        this.velocity.y -= 11000 / (new Date() - this.lastJumped + 2000);
-      }
-      if (this.onGround && jumpDown) {
-        this.lastJumped = new Date();
-        this.velocity.y = -350;
-      }
+      this.handleAcceleration(move);
+      this.handleDeceleration(move);
+      this.handleJumping(jumpDown, jump);
     }
 
+    this.moveX();
+    this.moveY();
+
+    if (this.collider.layer === 'player') this.handleEnemyCollisions();
+  }
+
+  handleAcceleration(move) {
+    let acceleration = this.onGround
+                        ? this.groundAcceleration : this.airAcceleration;
+    let frameAcceleration = acceleration * Time.deltaTime;
+    if (this.accelerate && Math.sign(this.velocity.x) !== Math.sign(move)
+        && Math.sign(this.velocity.x) !== 0
+        && Math.sign(move) !== 0
+        && this.onGround) {
+
+      frameAcceleration *= 3;
+      this.skidding = true;
+    }
+
+    if (this.accelerate) {
+      this.velocity.x += move * frameAcceleration;
+      if (this.velocity.x > this.speed) this.velocity.x = this.speed;
+      if (this.velocity.x < -this.speed) this.velocity.x = -this.speed;
+    } else {
+      this.velocity.x = move * this.speed;
+    }
+  }
+
+  handleDeceleration(move) {
+    if (this.onGround && move === 0) {
+      const frameDeceleration = this.groundAcceleration * Time.deltaTime;
+      if (this.accelerate) {
+        if (Math.abs(this.velocity.x) < frameDeceleration) {
+          this.velocity.x = 0;
+        } else if (this.velocity.x > 0) {
+          this.velocity.x -= frameDeceleration;
+        } else if (this.velocity.x < 0) {
+          this.velocity.x += frameDeceleration;
+        }
+      } else {
+        this.velocity.x = 0;
+      }
+    }
+  }
+
+  handleJumping(jumpDown, jump) {
+    const msSinceJumped = new Date() - this.lastJumped;
+    if (this.accelerate && jump && this.lastJumped && msSinceJumped <= 400) {
+      this.velocity.y -= 17000 / (new Date() - this.lastJumped + 2000);
+    }
+    if (this.onGround && jumpDown) {
+      this.lastJumped = new Date();
+      this.velocity.y = -0.34 * (Math.abs(this.velocity.x) + 1000);
+    }
+  }
+
+  moveX() {
     this.transform.position = this.transform.position.plus(
       new Vector(this.velocity.x * Time.deltaTime, 0)
     );
-    let depth = this.collider.checkAllCollisions(['obstacle']);
-    if (depth) {
+    let collision = this.collider.checkAllCollisions(['obstacle']);
+    if (collision) {
       this.velocity.x = 0;
       this.transform.position = this.transform.position.minus(
-        new Vector(depth.x, 0)
+        new Vector(collision.depth.x, 0)
       );
     }
+  }
+
+  moveY() {
     this.transform.position = this.transform.position.plus(
       new Vector(0, this.velocity.y * Time.deltaTime)
     );
     this.onGround = false;
     const oneDirection = this.velocity.y > 0;
-    depth = this.collider.checkAllCollisions(['obstacle'], oneDirection);
-    if (depth) {
+    let collision = this.collider.checkAllCollisions(
+      ['obstacle'],
+      oneDirection
+    );
+    if (collision) {
       this.velocity.y = 0;
-      if (depth.y > 0) this.onGround = true;
+      if (collision.depth.y > 0) {
+        this.onGround = true;
+      } else {
+        this.lastJumped = null;
+      }
       this.transform.position = this.transform.position.minus(
-        new Vector(0, depth.y)
+        new Vector(0, collision.depth.y)
       );
+    }
+  }
+
+  handleEnemyCollisions() {
+    const collision = this.collider.checkAllCollisions(['enemy']);
+    if (collision) {
+      const depth = collision.depth;
+      if (depth.y > 0 && depth.y < this.collider.size.y / 4) {
+        if (this.velocity.y > -350) {
+          this.velocity.y = -500;
+          this.transform.position.y = collision.collider.rect.y2 - 8;
+          const health = collision.collider.gameObject.getComponent(Health);
+          if (health) health.damage();
+        }
+      } else {
+        if (this.health) this.health.damage();
+      }
     }
   }
 }

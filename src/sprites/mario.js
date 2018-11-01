@@ -1,11 +1,8 @@
 import Vector from '../Vector';
-import imagePath from '../images/mario.png';
-
-const image = new Image();
-image.src = imagePath;
+import { marioImage } from '../files';
 
 export default {
-  image,
+  image: marioImage,
   frames: {
     idle: { position: new Vector(217, 89), size: new Vector(12, 15) },
     step: { position: new Vector(256, 89), size: new Vector(16, 16) },

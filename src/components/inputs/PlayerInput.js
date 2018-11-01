@@ -1,15 +1,18 @@
-import Component from './Component';
+import Input from './Input';
 import key from 'keymaster';
 
-class Input extends Component {
+class PlayerInput extends Input {
   constructor() {
     super();
     this._canJump = true;
     this._shouldJump = false;
-    key('space', () => {
-      if (this._canJump) {
-        this._canJump = false;
-        this._shouldJump = true;
+    document.addEventListener('keydown', e => {
+      e.preventDefault();
+      if (e.key === ' ') {
+        if (this._canJump) {
+          this._canJump = false;
+          this._shouldJump = true;
+        }
       }
     });
     document.addEventListener('keyup', e => {
@@ -38,4 +41,4 @@ class Input extends Component {
   }
 }
 
-export default Input;
+export default PlayerInput;

@@ -4,13 +4,11 @@ import Collider from '../components/Collider';
 import Vector from '../Vector';
 import { extractFileName } from '../util';
 import stage from '../tilesets/stage.json';
-import stageImagePath from '../images/stage.png';
 import Transform from '../components/Transform';
 import Game from '../Game';
 import createMario from './createMario';
-
-const stageImage = new Image();
-stageImage.src = stageImagePath;
+import createGoomba from './createGoomba';
+import { stageImage } from '../files';
 
 const tilesetsByFileName = { 'stage': stage };
 const imagesByFileName = { 'stage': stageImage };
@@ -70,9 +68,13 @@ const loadObjectLayer = layer => {
 };
 
 const spawn = object => {
-  switch (object.type) {
+  const position = new Vector(object.x * 2, object.y * 2);
+  switch (object.name) {
     case 'mario':
-      createMario(new Vector(object.x * 2, object.y * 2));
+      createMario(position);
+      break;
+    case 'goomba':
+      createGoomba(position);
       break;
   }
 };

@@ -42,17 +42,6 @@
                  "y":416
                 }, 
                 {
-                 "height":0,
-                 "id":4,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":176,
-                 "y":352
-                }, 
-                {
                  "height":16,
                  "id":5,
                  "name":"",
@@ -73,28 +62,6 @@
                  "width":48,
                  "x":272,
                  "y":336
-                }, 
-                {
-                 "height":16,
-                 "id":7,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":224,
-                 "y":304
-                }, 
-                {
-                 "height":16,
-                 "id":8,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":176,
-                 "y":352
                 }, 
                 {
                  "height":16,
@@ -194,6 +161,28 @@
                  "width":16,
                  "x":704,
                  "y":352
+                }, 
+                {
+                 "height":16,
+                 "id":37,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":176,
+                 "y":352
+                }, 
+                {
+                 "height":16,
+                 "id":38,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":224,
+                 "y":304
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -209,14 +198,26 @@
                 {
                  "height":0,
                  "id":10,
-                 "name":"",
+                 "name":"mario",
                  "point":true,
                  "rotation":0,
-                 "type":"mario",
+                 "type":"",
                  "visible":true,
                  "width":0,
-                 "x":31.666828943834,
-                 "y":403.142311120794
+                 "x":32,
+                 "y":416
+                }, 
+                {
+                 "height":0,
+                 "id":27,
+                 "name":"goomba",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":232,
+                 "y":416
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -225,7 +226,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":26,
+ "nextobjectid":39,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.0",

@@ -2,7 +2,7 @@ import Component from '../Component';
 import SpriteRenderer from '../renderers/SpriteRenderer';
 import Transform from '../Transform';
 import Movement from '../Movement';
-import Input from '../Input';
+import Input from '../inputs/Input';
 
 class MarioAnimator extends Component {
   start() {
@@ -21,7 +21,8 @@ class MarioAnimator extends Component {
         if (this.movement.velocity.x === 0) {
           this.sprite.frame = 'idle';
         } else {
-          const walkIndex = Math.floor(this.transform.position.x / 12) % 2;
+          let walkIndex = Math.floor(this.transform.position.x / 12) % 2;
+          if (walkIndex < 0) walkIndex += 2;
           this.sprite.frame = this.walkFrames[walkIndex];
         }
       }
