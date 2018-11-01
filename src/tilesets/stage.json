@@ -1,13 +1,26 @@
-{ "columns":73,
- "image":"../images/stage.png",
+{ "columns":74,
+ "image":"..\/images\/stage.png",
  "imageheight":358,
- "imagewidth":1242,
+ "imagewidth":1260,
  "margin":1,
  "name":"stage",
  "spacing":1,
- "tilecount":1533,
+ "tilecount":1554,
  "tiledversion":"1.2.0",
  "tileheight":16,
+ "tiles":[
+        {
+         "id":67,
+         "type":"mysteryblock"
+        }, 
+        {
+         "id":73,
+         "type":"mario"
+        }, 
+        {
+         "id":147,
+         "type":"goomba"
+        }],
  "tilewidth":16,
  "transparentcolor":"#e0a3d8",
  "type":"tileset",

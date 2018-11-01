@@ -3,33 +3,34 @@ import ImageRenderer from '../components/renderers/ImageRenderer';
 import Collider from '../components/Collider';
 import Vector from '../Vector';
 import { extractFileName } from '../util';
-import stage from '../tilesets/stage.json';
 import Transform from '../components/Transform';
 import Game from '../Game';
 import createMario from './createMario';
 import createGoomba from './createGoomba';
+import createMysteryBlock from './createMysteryBlock';
+import stage from '../tilesets/stage.json';
 import { stageImage } from '../files';
 
 const tilesetsByFileName = { 'stage': stage };
 const imagesByFileName = { 'stage': stageImage };
 
-const loadTilemap = (tilemap, tiles) => {
+const loadTilemap = tilemap => {
   Game.mapSize = new Vector(
     tilemap.width * tilemap.tilewidth * 2,
     tilemap.height * tilemap.tileheight * 2
   );
   tilemap.layers.forEach(layer => {
     if (layer.type === 'tilelayer') {
-      loadTileLayer(tilemap, layer);
+      loadTileLayer(layer, tilemap);
     }
 
     if (layer.type === 'objectgroup') {
-      loadObjectLayer(layer);
+      loadObjectLayer(layer, tilemap.tilesets);
     }
   });
 };
 
-const loadTileLayer = (tilemap, layer) => {
+const loadTileLayer = (layer, tilemap) => {
   layer.data.forEach((gid, idx) => {
     if (gid === 0) return;
     const row = Math.floor(idx / layer.width);
@@ -40,12 +41,12 @@ const loadTileLayer = (tilemap, layer) => {
     );
     const tile = new GameObject();
     tile.addComponent(new Transform(worldPosition));
-    const { image, position, size } = getImageData(tilemap.tilesets, gid);
+    const { image, position, size } = getImageData(gid, tilemap.tilesets);
     tile.addComponent(new ImageRenderer(image, position, size));
   });
 };
 
-const loadObjectLayer = layer => {
+const loadObjectLayer = (layer, tilesets) => {
   if (layer.name === 'Collision') {
     layer.objects.forEach(({ x, y, width, height, type }) => {
       const obstacle = new GameObject();
@@ -63,36 +64,41 @@ const loadObjectLayer = layer => {
       );
     });
   } else if (layer.name === 'Spawn') {
-    layer.objects.forEach(object => spawn(object));
+    layer.objects.forEach(object => spawn(object, tilesets));
   }
 };
 
-const spawn = object => {
-  const position = new Vector(object.x * 2, object.y * 2);
-  switch (object.name) {
+const spawn = (object, tilesets) => {
+  const position = new Vector(
+    object.x * 2 + object.width,
+    object.y * 2
+  );
+  switch (getObjectType(object, tilesets)) {
     case 'mario':
       createMario(position);
       break;
     case 'goomba':
       createGoomba(position);
       break;
+    case 'mysteryblock':
+      createMysteryBlock(position);
+      break;
   }
 };
 
-const getImageData = (tilesets, gid) => {
-  const tilesetData = getTilesetData(tilesets, gid);
-  const fileName = extractFileName(tilesetData.source);
-  const tileset = tilesetsByFileName[fileName];
+const getImageData = (gid, tilesets) => {
+  const tilesetData = getTilesetData(gid, tilesets);
+  const tileset = getTileset(tilesetData);
   const id = gid - tilesetData.firstgid;
   const image = imagesByFileName[extractFileName(tileset.image)];
   return {
     image,
-    position: getTilePosition(tileset, id),
+    position: getTilePosition(id, tileset),
     size: new Vector(tileset.tilewidth, tileset.tileheight)
   };
 };
 
-const getTilePosition = (tileset, id) => {
+const getTilePosition = (id, tileset) => {
   const row = Math.floor(id / tileset.columns);
   const col = id % tileset.columns;
   return new Vector(
@@ -101,13 +107,32 @@ const getTilePosition = (tileset, id) => {
   );
 };
 
-const getTilesetData = (tilesets, gid) => {
+const getTilesetData = (gid, tilesets) => {
   for (let i = 0; i < tilesets.length; i++) {
     const gidInTileset = (
       gid >= tilesets[i].firstgid
       && (!tilesets[i + 1] || gid < tilesets[i + 1].firstgid)
     );
     if (gidInTileset) return tilesets[i];
+  }
+};
+
+const getTileset = tilesetData => {
+  const fileName = extractFileName(tilesetData.source);
+  return  tilesetsByFileName[fileName];
+};
+
+const getObjectType = (object, tilesets) => {
+  if (!object.type && object.gid) {
+    const tilesetData = getTilesetData(object.gid, tilesets);
+    const tileset = getTileset(tilesetData);
+    const id = object.gid - tilesetData.firstgid;
+    const tiles = tileset.tiles;
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i].id === id) return tiles[i].type;
+    }
+  } else {
+    return object.type;
   }
 };
 

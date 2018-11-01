@@ -8,6 +8,7 @@ import SpriteRenderer from '../components/renderers/SpriteRenderer';
 import goombaSprite from '../sprites/goomba';
 import GoombaAnimator from '../components/animators/GoombaAnimator';
 import Health from '../components/Health';
+import Damageable from '../components/Damageable';
 
 const createGoomba = position => {
   const goomba = new GameObject();
@@ -15,9 +16,12 @@ const createGoomba = position => {
   goomba.addComponent(new Movement({ speed: 50 }));
   goomba.addComponent(new GoombaInput());
   goomba.addComponent(new Collider('enemy', new Vector(16, 16).times(2), true));
-  goomba.addComponent(new SpriteRenderer(goombaSprite));
+  goomba.addComponent(
+    new SpriteRenderer(goombaSprite, 'walk1', new Vector(0, 2))
+  );
   goomba.addComponent(new GoombaAnimator());
   goomba.addComponent(new Health());
+  goomba.addComponent(new Damageable());
 };
 
 export default createGoomba;

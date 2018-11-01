@@ -3,10 +3,11 @@ import goombaSprite from '../../sprites/goomba';
 import Health from '../Health';
 import GameObject from '../../game-objects/GameObject';
 import Transform from '../Transform';
+import Vector from '../../Vector';
 
 class SpriteRenderer extends Renderer {
-  constructor(sprite, frame) {
-    super();
+  constructor(sprite, frame, offset = Vector.zero) {
+    super(offset);
     this.sprite = sprite;
     this.frame = frame === undefined ? Object.keys(sprite.frames)[0] : frame;
     this.flipped = false;

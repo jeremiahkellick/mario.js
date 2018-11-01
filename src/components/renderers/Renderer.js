@@ -3,8 +3,9 @@ import Transform from '../Transform';
 import Vector from '../../Vector';
 
 class Renderer extends Component {
-  constructor() {
+  constructor(offset = Vector.zero) {
     super();
+    this.offset = offset;
     Renderer.all.add(this);
   }
 
@@ -23,7 +24,7 @@ class Renderer extends Component {
     bottom = false,
     flipped = false
   ) {
-    let { x, y } = this.transform.position.plus(offset);
+    let { x, y } = this.offsetPosition().plus(offset);
     x = Math.floor(x - size.x);
     y = Math.floor(y - size.y * (bottom ? 2 : 1));
     ctx.save();
@@ -44,6 +45,10 @@ class Renderer extends Component {
       size.y * 2
     );
     ctx.restore();
+  }
+
+  offsetPosition() {
+    return this.transform.position.plus(this.offset);
   }
 
   onDestroy() {

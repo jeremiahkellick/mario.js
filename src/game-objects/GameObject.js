@@ -17,6 +17,15 @@ class GameObject {
     );
   }
 
+  removeComponent(component) {
+    for (let i = 0; i < this.components.length; i++) {
+      if (this.components[i] === component) {
+        this.components.splice(i, 1);
+        return;
+      }
+    }
+  }
+
   update() {
     this.components.forEach(component => component.update());
   }

@@ -4,7 +4,7 @@ import Transform from './Transform';
 import Time from '../Time';
 import Collider from './Collider';
 import Input from './inputs/Input';
-import Health from './Health';
+import Damageable from './Damageable';
 
 class Movement extends Component {
   constructor({
@@ -31,7 +31,7 @@ class Movement extends Component {
     this.transform = this.requireComponent(Transform);
     this.collider = this.requireComponent(Collider);
     this.input = this.getComponent(Input);
-    this.health = this.getComponent(Health);
+    this.damageable = this.getComponent(Damageable);
   }
 
   update() {
@@ -50,7 +50,7 @@ class Movement extends Component {
     this.moveX();
     this.moveY();
 
-    if (this.collider.layer === 'player') this.handleEnemyCollisions();
+    if (this.collider.layer === 'player') this.handleDamagingCollisions();
   }
 
   handleAcceleration(move) {
@@ -107,7 +107,7 @@ class Movement extends Component {
     this.transform.position = this.transform.position.plus(
       new Vector(this.velocity.x * Time.deltaTime, 0)
     );
-    let collision = this.collider.checkAllCollisions(['obstacle']);
+    let collision = this.collider.checkAllCollisions(['obstacle', 'block']);
     if (collision) {
       this.velocity.x = 0;
       this.transform.position = this.transform.position.minus(
@@ -123,7 +123,7 @@ class Movement extends Component {
     this.onGround = false;
     const oneDirection = this.velocity.y > 0;
     let collision = this.collider.checkAllCollisions(
-      ['obstacle'],
+      ['obstacle', 'block'],
       oneDirection
     );
     if (collision) {
@@ -131,6 +131,13 @@ class Movement extends Component {
       if (collision.depth.y > 0) {
         this.onGround = true;
       } else {
+        if (collision.collider.layer === 'block'
+            && collision.depth.y > -collision.collider.size.y / 4) {
+
+          const otherGameObject = collision.collider.gameObject;
+          const damageable = otherGameObject.getComponent(Damageable);
+          if (damageable) damageable.damage();
+        }
         this.lastJumped = null;
       }
       this.transform.position = this.transform.position.minus(
@@ -139,19 +146,18 @@ class Movement extends Component {
     }
   }
 
-  handleEnemyCollisions() {
+  handleDamagingCollisions() {
     const collision = this.collider.checkAllCollisions(['enemy']);
     if (collision) {
       const depth = collision.depth;
       if (depth.y > 0 && depth.y < this.collider.size.y / 4) {
-        if (this.velocity.y > -350) {
-          this.velocity.y = -500;
-          this.transform.position.y = collision.collider.rect.y2 - 8;
-          const health = collision.collider.gameObject.getComponent(Health);
-          if (health) health.damage();
-        }
-      } else {
-        if (this.health) this.health.damage();
+        if (this.velocity.y > -500) this.velocity.y = -500;
+        this.transform.position.y = collision.collider.rect.y2 - 8;
+        const otherGameObject = collision.collider.gameObject;
+        const damageable = otherGameObject.getComponent(Damageable);
+        if (damageable) damageable.damage();
+      } else if (collision.collider.layer === 'enemy') {
+        if (this.damageable) this.damageable.damage();
       }
     }
   }
