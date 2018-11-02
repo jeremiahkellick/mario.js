@@ -12,10 +12,10 @@ class Movement extends Component {
     airAcceleration,
     groundAcceleration,
     speed,
-    accelerate
+    accelerate,
+    velocity
   }) {
     super();
-    this.velocity = Vector.zero;
     this.onGround = false;
     this.skidding = false;
     this.lastJumped = null;
@@ -25,11 +25,14 @@ class Movement extends Component {
                               ? 200 : groundAcceleration;
     this.speed = speed === undefined ? 165 : speed;
     this.accelerate = accelerate === undefined ? false : accelerate;
+    this.velocity = velocity || Vector.zero;
+
+    this.onHitWallFunctions = new Set();
   }
 
   start() {
     this.transform = this.requireComponent(Transform);
-    this.collider = this.requireComponent(Collider);
+    this.collider = this.getComponent(Collider);
     this.input = this.getComponent(Input);
     this.damageable = this.getComponent(Damageable);
   }
@@ -50,7 +53,9 @@ class Movement extends Component {
     this.moveX();
     this.moveY();
 
-    if (this.collider.layer === 'player') this.handleDamagingCollisions();
+    if (this.collider && this.collider.layer === 'player') {
+      this.handleDamagingCollisions();
+    }
   }
 
   handleAcceleration(move) {
@@ -107,12 +112,15 @@ class Movement extends Component {
     this.transform.position = this.transform.position.plus(
       new Vector(this.velocity.x * Time.deltaTime, 0)
     );
-    let collision = this.collider.checkAllCollisions(['obstacle', 'block']);
-    if (collision) {
-      this.velocity.x = 0;
-      this.transform.position = this.transform.position.minus(
-        new Vector(collision.depth.x, 0)
-      );
+    if (this.collider) {
+      let collision = this.collider.checkAllCollisions(['obstacle', 'block']);
+      if (collision) {
+        this.velocity.x = 0;
+        this.transform.position = this.transform.position.minus(
+          new Vector(collision.depth.x, 0)
+        );
+        this.onHitWallFunctions.forEach(func => func());
+      }
     }
   }
 
@@ -121,28 +129,30 @@ class Movement extends Component {
       new Vector(0, this.velocity.y * Time.deltaTime)
     );
     this.onGround = false;
-    const oneDirection = this.velocity.y > 0;
-    let collision = this.collider.checkAllCollisions(
-      ['obstacle', 'block'],
-      oneDirection
-    );
-    if (collision) {
-      this.velocity.y = 0;
-      if (collision.depth.y > 0) {
-        this.onGround = true;
-      } else {
-        if (collision.collider.layer === 'block'
-            && collision.depth.y > -collision.collider.size.y / 4) {
-
-          const otherGameObject = collision.collider.gameObject;
-          const damageable = otherGameObject.getComponent(Damageable);
-          if (damageable) damageable.damage();
-        }
-        this.lastJumped = null;
-      }
-      this.transform.position = this.transform.position.minus(
-        new Vector(0, collision.depth.y)
+    if (this.collider) {
+      const oneDirection = this.velocity.y > 0;
+      let collision = this.collider.checkAllCollisions(
+        ['obstacle', 'block'],
+        oneDirection
       );
+      if (collision) {
+        this.velocity.y = 0;
+        if (collision.depth.y > 0) {
+          this.onGround = true;
+        } else {
+          if (collision.collider.layer === 'block'
+              && collision.depth.y > -collision.collider.size.y / 4) {
+
+            const otherGameObject = collision.collider.gameObject;
+            const damageable = otherGameObject.getComponent(Damageable);
+            if (damageable) damageable.damage();
+          }
+          this.lastJumped = null;
+        }
+        this.transform.position = this.transform.position.minus(
+          new Vector(0, collision.depth.y)
+        );
+      }
     }
   }
 
@@ -160,6 +170,11 @@ class Movement extends Component {
         if (this.damageable) this.damageable.damage();
       }
     }
+  }
+
+  onHitWall(func) {
+    this.onHitWallFunctions.add(func);
+    return () => this.onHitWallFunctions.delete(func);
   }
 }
 

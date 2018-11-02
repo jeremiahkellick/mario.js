@@ -1,5 +1,5 @@
 import Renderer from './Renderer';
-import goombaSprite from '../../sprites/goomba';
+import goombaSprite from '../../sprites/goombaSprite';
 import Health from '../Health';
 import GameObject from '../../game-objects/GameObject';
 import Transform from '../Transform';
@@ -16,14 +16,16 @@ class SpriteRenderer extends Renderer {
   start() {
     this.transform = this.requireComponent(Transform);
     const health = this.getComponent(Health);
-    if (health) health.onDeath(() => {
-      if (this.sprite.frames['dead'] !== undefined) {
-        const body = new GameObject();
-        body.addComponent(new Transform(this.transform.position));
-        body.addComponent(new SpriteRenderer(this.sprite, 'dead'));
-        setTimeout(() => body.destroy(), 250);
-      }
-    });
+    if (health) {
+      health.onDeath(() => {
+        if (this.sprite.frames['dead'] !== undefined) {
+          const body = new GameObject();
+          body.addComponent(new Transform(this.transform.position));
+          body.addComponent(new SpriteRenderer(this.sprite, 'dead'));
+          setTimeout(() => body.destroy(), 250);
+        }
+      });
+    }
   }
 
   draw(ctx) {

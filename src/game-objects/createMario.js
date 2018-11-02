@@ -5,7 +5,7 @@ import Movement from '../components/Movement';
 import Collider from '../components/Collider';
 import PlayerInput from '../components/inputs/PlayerInput';
 import SpriteRenderer from '../components/renderers/SpriteRenderer';
-import marioSprite from '../sprites/mario';
+import marioSprite from '../sprites/marioSprite';
 import MarioAnimator from '../components/animators/MarioAnimator';
 import Game from '../Game';
 import Health from '../components/Health';

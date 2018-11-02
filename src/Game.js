@@ -10,6 +10,7 @@ const Game = {
     this.gameObjects = new Set();
     this.update = this.update.bind(this);
     this.draw = this.draw.bind(this);
+    this.coins = 0;
     Time.update();
     setTimeout(this.update, 0);
     window.requestAnimationFrame(this.draw);
@@ -19,8 +20,9 @@ const Game = {
   update() {
     Component.start();
     Time.update();
-    this.gameObjects.forEach(gameObject => gameObject.update());
-    this.gameObjects.forEach(gameObject => gameObject.lateUpdate());
+    Array.from(this.gameObjects).forEach(gameObject => gameObject.update());
+    Component.start();
+    Array.from(this.gameObjects).forEach(gameObject => gameObject.lateUpdate());
     setTimeout(this.update, 0);
   },
 
@@ -32,6 +34,9 @@ const Game = {
     this.ctx.rect(0, 390, 512, 90);
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
+    this.ctx.font = "16px sans-serif";
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText(`$${this.coins}`, 450, 450);
     if (this.playerTransform) {
       let { x, y } = this.playerTransform.position.minus(new Vector(256, 240));
       if (x < 0) x = 0;

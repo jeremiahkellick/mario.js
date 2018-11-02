@@ -3,12 +3,12 @@ import Vector from '../Vector';
 import Transform from '../components/Transform';
 import Collider from '../components/Collider';
 import SpriteRenderer from '../components/renderers/SpriteRenderer';
-import mysteryBlockSprite from '../sprites/mysteryBlock';
+import mysteryBlockSprite from '../sprites/mysteryBlockSprite';
 import MysteryBlockAnimator from '../components/animators/MysteryBlockAnimator';
 import Damageable from '../components/Damageable';
 import MysteryBlockDamageHandler from '../components/MysteryBlockDamageHandler';
 
-const createMysteryBlock = position => {
+const createMysteryBlock = (position, creator) => {
   const mysteryBlock = new GameObject();
   mysteryBlock.addComponent(new Transform(position));
   mysteryBlock.addComponent(
@@ -17,7 +17,7 @@ const createMysteryBlock = position => {
   mysteryBlock.addComponent(new SpriteRenderer(mysteryBlockSprite));
   mysteryBlock.addComponent(new MysteryBlockAnimator());
   mysteryBlock.addComponent(new Damageable());
-  mysteryBlock.addComponent(new MysteryBlockDamageHandler());
+  mysteryBlock.addComponent(new MysteryBlockDamageHandler(creator));
 };
 
 export default createMysteryBlock;

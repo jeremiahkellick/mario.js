@@ -80,7 +80,9 @@ class Collider extends Component {
     let colliders = [];
     layers.forEach(layer => {
       if (Collider.all[layer] === undefined) return;
-      colliders = colliders.concat(Array.from(Collider.all[layer]));
+      Collider.all[layer].forEach(collider => {
+        if (collider.isStarted()) colliders.push(collider);
+      });
     });
     return colliders;
   }

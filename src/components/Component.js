@@ -23,6 +23,10 @@ class Component {
     return component;
   }
 
+  isStarted() {
+    return !Component.unstarted.has(this);
+  }
+
   static start() {
     this.unstarted.forEach(component => {
       component.start();

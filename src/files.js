@@ -2,6 +2,7 @@ import level1MusicPath from './audio/level1-music.mp3';
 import stageImagePath from './images/stage.png';
 import enemiesImagePath from './images/enemies.png';
 import marioImagePath from './images/mario.png';
+import npcsAndItemsPath from './images/npcs-and-items.png';
 
 export const level1Music = new Audio(level1MusicPath);
 
@@ -13,3 +14,6 @@ enemiesImage.src = enemiesImagePath;
 
 export const marioImage = new Image();
 marioImage.src = marioImagePath;
+
+export const npcsAndItemsImage = new Image();
+npcsAndItemsImage.src = npcsAndItemsPath;

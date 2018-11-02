@@ -10,6 +10,7 @@ import createGoomba from './createGoomba';
 import createMysteryBlock from './createMysteryBlock';
 import stage from '../tilesets/stage.json';
 import { stageImage } from '../files';
+import createBoxCoin from './createBoxCoin';
 
 const tilesetsByFileName = { 'stage': stage };
 const imagesByFileName = { 'stage': stageImage };
@@ -81,8 +82,19 @@ const spawn = (object, tilesets) => {
       createGoomba(position);
       break;
     case 'mysteryblock':
-      createMysteryBlock(position);
+      mysteryBlockFromTiledObject(object);
       break;
+  }
+};
+
+const mysteryBlockFromTiledObject = object => {
+  const position = new Vector(
+    object.x * 2 + object.width,
+    object.y * 2
+  );
+  switch (object.name) {
+    default:
+      createMysteryBlock(position, createBoxCoin);
   }
 };
 

@@ -5,6 +5,7 @@ import Vector from './Vector';
 import level1 from './maps/level1.json';
 import loadTilemap from './game-objects/loadTilemap';
 import { level1Music } from './files';
+import createMushroom from './game-objects/createMushroom';
 
 document.addEventListener('DOMContentLoaded', () => {
   let played = false;
@@ -17,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     e.currentTarget.innerText = level1Music.muted ? 'Unmute' : 'Mute';
   });
-  // document.addEventListener('keydown', () => level1Music.play());
   Game.init(document.getElementById('canvas').getContext('2d'));
   loadTilemap(level1);
+  createMushroom(new Vector(300, 832));
 });
