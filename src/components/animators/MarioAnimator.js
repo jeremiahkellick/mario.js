@@ -38,7 +38,11 @@ class MarioAnimator extends Component {
         }
       }
     } else {
-      this.sprite.frame = 'jump';
+      if (this.movement.velocity.y < 0) {
+        this.sprite.frame = 'jumpUp';
+      } else {
+        this.sprite.frame = 'jumpDown';
+      }
     }
     const move = this.input.move;
     if (move > 0) {

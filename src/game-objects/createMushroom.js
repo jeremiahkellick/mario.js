@@ -12,7 +12,9 @@ const createMushroom = position => {
   const mushroom = new GameObject();
   mushroom.addComponent(new Transform(position));
   mushroom.addComponent(new Movement({ speed: 75 }));
-  mushroom.addComponent(new DirChangeInput());
+  mushroom.addComponent(
+    new DirChangeInput([-1, 1][Math.floor(Math.random() * 2)])
+  );
   mushroom.addComponent(
     new Collider('item', new Vector(16, 16).times(2), true)
   );

@@ -11,6 +11,7 @@ import createMysteryBlock from './createMysteryBlock';
 import stage from '../tilesets/stage.json';
 import { stageImage } from '../files';
 import createBoxCoin from './createBoxCoin';
+import createMushroom from './createMushroom';
 
 const tilesetsByFileName = { 'stage': stage };
 const imagesByFileName = { 'stage': stageImage };
@@ -93,6 +94,9 @@ const mysteryBlockFromTiledObject = object => {
     object.y * 2
   );
   switch (object.name) {
+    case 'mushroom':
+      createMysteryBlock(position, createMushroom);
+      break;
     default:
       createMysteryBlock(position, createBoxCoin);
   }

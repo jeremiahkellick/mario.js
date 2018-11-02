@@ -5,8 +5,7 @@ import Transform from '../Transform';
 class BoxCoinAnimator extends Component {
   start() {
     this.transform = this.requireComponent(Transform);
-    this.startY = this.transform.position.y - 32;
-    this.transform.position.y = this.startY;
+    this.startY = this.transform.position.y;
     this.sprite = this.requireComponent(SpriteRenderer);
     this.startTime = new Date();
   }

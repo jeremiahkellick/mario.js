@@ -20,5 +20,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   Game.init(document.getElementById('canvas').getContext('2d'));
   loadTilemap(level1);
-  createMushroom(new Vector(300, 832));
 });
