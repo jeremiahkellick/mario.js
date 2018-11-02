@@ -48,7 +48,9 @@ const Game = {
       this.ctx.translate(x, y);
     }
     this.ctx.beginPath();
-    Renderer.all.forEach(renderer => renderer.draw(this.ctx));
+    Renderer.all.forEach(renderer => {
+      if (renderer.visible) renderer.draw(this.ctx);
+    });
     window.requestAnimationFrame(this.draw);
   },
 

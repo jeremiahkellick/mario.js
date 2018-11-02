@@ -5,6 +5,7 @@ import Vector from '../../Vector';
 class Renderer extends Component {
   constructor(offset = Vector.zero) {
     super();
+    this.visible = true;
     this.offset = offset;
     Renderer.all.add(this);
   }

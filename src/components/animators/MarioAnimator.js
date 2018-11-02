@@ -3,6 +3,7 @@ import SpriteRenderer from '../renderers/SpriteRenderer';
 import Transform from '../Transform';
 import Movement from '../Movement';
 import Input from '../inputs/Input';
+import Damageable from '../Damageable';
 
 class MarioAnimator extends Component {
   start() {
@@ -10,7 +11,15 @@ class MarioAnimator extends Component {
     this.sprite = this.requireComponent(SpriteRenderer);
     this.movement = this.requireComponent(Movement);
     this.input = this.requireComponent(Input);
-    this.walkFrames = ['idle', 'step'];
+    this.damageable = this.getComponent(Damageable);
+  }
+
+  get walkFrames() {
+    if (this.sprite.sprite.frames['walk2'] !== undefined) {
+      return ['walk0', 'walk1', 'walk2', 'walk3'];
+    } else {
+      return ['walk0', 'walk1'];
+    }
   }
 
   lateUpdate() {
@@ -19,11 +28,13 @@ class MarioAnimator extends Component {
         this.sprite.frame = 'skid';
       } else {
         if (this.movement.velocity.x === 0) {
-          this.sprite.frame = 'idle';
+          this.sprite.frame = 'walk0';
         } else {
-          let walkIndex = Math.floor(this.transform.position.x / 12) % 2;
+          const walkFrames = this.walkFrames;
+          let walkIndex = Math.floor(this.transform.position.x / 14)
+                          % walkFrames.length;
           if (walkIndex < 0) walkIndex += 2;
-          this.sprite.frame = this.walkFrames[walkIndex];
+          this.sprite.frame = walkFrames[walkIndex];
         }
       }
     } else {
@@ -34,6 +45,12 @@ class MarioAnimator extends Component {
       this.sprite.flipped = false;
     } else if (move < 0) {
       this.sprite.flipped = true;
+    }
+    this.sprite.visible = true;
+    if (this.damageable) {
+      if (this.damageable.invincible) {
+        this.sprite.visible = !!(Math.floor(new Date().getTime() / 16) % 2);
+      }
     }
   }
 }
