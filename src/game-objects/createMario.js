@@ -21,7 +21,7 @@ const createMario = position => {
   mario.addComponent(new Collider('player', new Vector(10, 15).times(2), true));
   mario.addComponent(new PlayerInput());
   mario.addComponent(
-    new SpriteRenderer(marioSprite, 'walk0', new Vector(0, 2))
+    new SpriteRenderer(marioSprite, 'walk0', { offset: new Vector(0, 2) })
   );
   mario.addComponent(new MarioAnimator());
   mario.addComponent(new Damageable);

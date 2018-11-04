@@ -1,10 +1,11 @@
 import Component from './Component';
 
 class Damageable extends Component {
-  constructor() {
+  constructor(stompable = true) {
     super();
     this.onDamageFunctions = new Set();
     this.invincible = false;
+    this.stompable = stompable;
   }
 
   tempInvincible() {
@@ -15,6 +16,10 @@ class Damageable extends Component {
   onDamage(func) {
     this.onDamageFunctions.add(func);
     return () => this.onDamageFunctions.delete(func);
+  }
+
+  stomp() {
+    if (this.stompable) this.damage();
   }
 
   damage() {

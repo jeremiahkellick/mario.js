@@ -6,8 +6,8 @@ import Transform from '../Transform';
 import Vector from '../../Vector';
 
 class SpriteRenderer extends Renderer {
-  constructor(sprite, frame, offset = Vector.zero) {
-    super(offset);
+  constructor(sprite, frame, options = {}) {
+    super(options);
     this.sprite = sprite;
     this.frame = frame === undefined ? Object.keys(sprite.frames)[0] : frame;
     this.flipped = false;
@@ -30,6 +30,7 @@ class SpriteRenderer extends Renderer {
 
   draw(ctx) {
     const frame = this.sprite.frames[this.frame];
+    if (frame === undefined) return;
     this.drawImage(
       ctx,
       this.sprite.image,

@@ -12,6 +12,7 @@ import stage from '../tilesets/stage.json';
 import { stageImage } from '../files';
 import createBoxCoin from './createBoxCoin';
 import createMushroom from './createMushroom';
+import createPiranhaPlant from './createPiranhaPlant';
 
 const tilesetsByFileName = { 'stage': stage };
 const imagesByFileName = { 'stage': stageImage };
@@ -84,6 +85,9 @@ const spawn = (object, tilesets) => {
       break;
     case 'mysteryblock':
       mysteryBlockFromTiledObject(object);
+      break;
+    case 'piranhaplant':
+      createPiranhaPlant(position);
       break;
   }
 };

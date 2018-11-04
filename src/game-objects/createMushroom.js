@@ -19,7 +19,7 @@ const createMushroom = position => {
     new Collider('item', new Vector(16, 16).times(2), true)
   );
   mushroom.addComponent(
-    new SpriteRenderer(mushroomSprite, 'main', new Vector(0, 2))
+    new SpriteRenderer(mushroomSprite, 'main', { offset: new Vector(0, 2) })
   );
   mushroom.addComponent(new Mushroom());
 };

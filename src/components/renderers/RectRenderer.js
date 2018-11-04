@@ -2,8 +2,8 @@ import Renderer from './Renderer';
 import Vector from '../../Vector';
 
 class RectRenderer extends Renderer {
-  constructor(size, offset = Vector.zero) {
-    super(offset);
+  constructor(size, options = {}) {
+    super(options);
     this.size = size;
   }
 

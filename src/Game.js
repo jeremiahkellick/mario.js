@@ -30,13 +30,6 @@ const Game = {
     Component.start();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, 512, 480);
-    this.ctx.beginPath();
-    this.ctx.rect(0, 390, 512, 90);
-    this.ctx.fillStyle = 'black';
-    this.ctx.fill();
-    this.ctx.font = "16px sans-serif";
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillText(`$${this.coins}`, 450, 450);
     if (this.playerTransform) {
       let { x, y } = this.playerTransform.position.minus(new Vector(256, 240));
       if (x < 0) x = 0;
@@ -51,6 +44,14 @@ const Game = {
     Renderer.all.forEach(renderer => {
       if (renderer.visible) renderer.draw(this.ctx);
     });
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.beginPath();
+    this.ctx.rect(0, 390, 512, 90);
+    this.ctx.fillStyle = 'black';
+    this.ctx.fill();
+    this.ctx.font = "16px sans-serif";
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText(`$${this.coins}`, 450, 450);
     window.requestAnimationFrame(this.draw);
   },
 

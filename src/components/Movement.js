@@ -160,13 +160,13 @@ class Movement extends Component {
     const collision = this.collider.checkAllCollisions(['enemy']);
     if (collision) {
       const depth = collision.depth;
-      if (depth.y > 0 && depth.y < this.collider.size.y / 4) {
+      const otherGameObject = collision.collider.gameObject;
+      const damageable = otherGameObject.getComponent(Damageable);
+      if (damageable && depth.y > 0 && depth.y < this.collider.size.y / 4) {
         if (this.velocity.y > -500) this.velocity.y = -500;
         this.transform.position.y = collision.collider.rect.y2 - 8;
-        const otherGameObject = collision.collider.gameObject;
-        const damageable = otherGameObject.getComponent(Damageable);
-        if (damageable) damageable.damage();
-      } else if (collision.collider.layer === 'enemy') {
+        damageable.stomp();
+      } else {
         if (this.damageable) this.damageable.damage();
       }
     }

@@ -5,7 +5,7 @@ import Vector from './Vector';
 import level1 from './maps/level1.json';
 import loadTilemap from './game-objects/loadTilemap';
 import { level1Music } from './files';
-import createMushroom from './game-objects/createMushroom';
+import createFireball from './game-objects/createFireball';
 
 document.addEventListener('DOMContentLoaded', () => {
   let played = false;

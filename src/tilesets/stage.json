@@ -20,6 +20,10 @@
         {
          "id":147,
          "type":"goomba"
+        }, 
+        {
+         "id":221,
+         "type":"piranhaplant"
         }],
  "tilewidth":16,
  "transparentcolor":"#e0a3d8",

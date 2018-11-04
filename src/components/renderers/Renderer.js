@@ -3,11 +3,14 @@ import Transform from '../Transform';
 import Vector from '../../Vector';
 
 class Renderer extends Component {
-  constructor(offset = Vector.zero) {
+  constructor(options = {}) {
+    const { offset, layer } = options;
     super();
     this.visible = true;
-    this.offset = offset;
-    Renderer.all.add(this);
+    this.offset = offset || Vector.zero;
+    this.layer = layer === undefined ? 1 : layer;
+    Renderer.ensureByLayerKey(this.layer);
+    Renderer.byLayer[this.layer].add(this);
   }
 
   start() {
@@ -53,10 +56,22 @@ class Renderer extends Component {
   }
 
   onDestroy() {
-    Renderer.all.delete(this);
+    Renderer.byLayer[this.layer].delete(this);
+  }
+
+  static ensureByLayerKey(key) {
+    if (Renderer.byLayer[key] === undefined) Renderer.byLayer[key] = new Set();
+  }
+
+  static get all() {
+    const arr = [];
+    Object.keys(Renderer.byLayer).sort((a, b) => a - b).forEach(layer => {
+      Renderer.byLayer[layer].forEach(renderer => arr.push(renderer));
+    });
+    return arr;
   }
 }
 
-Renderer.all = new Set();
+Renderer.byLayer = {};
 
 export default Renderer;

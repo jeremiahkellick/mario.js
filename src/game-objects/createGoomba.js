@@ -17,7 +17,7 @@ const createGoomba = position => {
   goomba.addComponent(new DirChangeInput());
   goomba.addComponent(new Collider('enemy', new Vector(16, 16).times(2), true));
   goomba.addComponent(
-    new SpriteRenderer(goombaSprite, 'walk1', new Vector(0, 2))
+    new SpriteRenderer(goombaSprite, 'walk1', { offset: new Vector(0, 2) })
   );
   goomba.addComponent(new GoombaAnimator());
   goomba.addComponent(new Health());
