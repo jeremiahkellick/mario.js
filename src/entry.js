@@ -5,15 +5,25 @@ import { level1Music } from './files';
 
 document.addEventListener('DOMContentLoaded', () => {
   let played = false;
-  document.getElementById('mute').addEventListener('click', e => {
+  const muteEl = document.getElementById('mute');
+  muteEl.addEventListener('click', e => {
+    e.preventDefault();
     if (!played) {
+      level1Music.currentTime = 0;
       level1Music.play();
       played = true;
+      Game.muted = false;
     } else {
       level1Music.muted = !level1Music.muted;
+      Game.muted = level1Music.muted;
     }
     e.currentTarget.innerText = level1Music.muted ? 'Unmute' : 'Mute';
   });
-  Game.init(document.getElementById('canvas').getContext('2d'));
-  loadTilemap(level1);
+  document.getElementById('play').addEventListener('click', e => {
+    e.preventDefault();
+    Game.init(document.getElementById('canvas').getContext('2d'));
+    loadTilemap(level1);
+    e.currentTarget.parentElement.removeChild(e.currentTarget);
+    muteEl.classList.remove('hidden');
+  });
 });

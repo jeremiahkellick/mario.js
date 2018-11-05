@@ -1,4 +1,6 @@
 import Component from './Component';
+import { stompSound } from '../files';
+import Game from '../Game';
 
 class Damageable extends Component {
   constructor(stompable = true) {
@@ -19,7 +21,13 @@ class Damageable extends Component {
   }
 
   stomp() {
-    if (this.stompable) this.damage();
+    if (this.stompable) {
+      if (!Game.muted) {
+        stompSound.currentTime = 0;
+        stompSound.play();
+      }
+      this.damage();
+    }
   }
 
   damage() {

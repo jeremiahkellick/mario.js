@@ -1,4 +1,6 @@
 import Component from './Component';
+import { kick } from '../files';
+import Game from '../Game';
 
 class Kickable extends Component {
   constructor() {
@@ -12,6 +14,10 @@ class Kickable extends Component {
   }
 
   kick() {
+    if (!Game.muted) {
+      kick.currentTime = 0;
+      kick.play();
+    }
     this.onKickFunctions.forEach(func => func());
   }
 }

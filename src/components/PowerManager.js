@@ -5,6 +5,8 @@ import Item from './items/Item';
 import marioSprite from '../sprites/marioSprite';
 import bigMarioSprite from '../sprites/bigMarioSprite';
 import Damageable from './Damageable';
+import Game from '../Game';
+import { powerDown, powerUp } from '../files';
 
 class PowerManager extends Component {
   constructor() {
@@ -23,9 +25,13 @@ class PowerManager extends Component {
           this.sprite.sprite = marioSprite;
           this.collider.size.y = 30;
           damageable.tempInvincible();
+          if (!Game.muted) {
+            powerDown.currentTime = 0;
+            powerDown.play();
+          }
           break;
         default:
-          this.gameObject.destroy();
+          Game.end();
       }
     });
   }
@@ -38,6 +44,10 @@ class PowerManager extends Component {
   }
 
   mushroom() {
+    if (this.power !== 'mushroom' && !Game.muted) {
+      powerUp.currentTime = 0;
+      powerUp.play();
+    }
     this.sprite.sprite = bigMarioSprite;
     this.collider.size.y = 46;
     this.power = 'mushroom';

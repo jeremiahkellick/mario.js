@@ -6,6 +6,8 @@ import Collider from './Collider';
 import Input from './inputs/Input';
 import Damageable from './Damageable';
 import Kickable from './Kickable';
+import Game from '../Game';
+import { bump, jumpSound } from '../files';
 
 class Movement extends Component {
   constructor({
@@ -111,6 +113,10 @@ class Movement extends Component {
       this.velocity.y -= 17000 / (new Date() - this.lastJumped + 2000);
     }
     if (this.onGround && jumpDown) {
+      if (!Game.muted) {
+        jumpSound.currentTime = 0;
+        jumpSound.play();
+      }
       this.lastJumped = new Date();
       this.velocity.y = -0.34 * (Math.abs(this.velocity.x) + 1000);
     }
@@ -127,10 +133,17 @@ class Movement extends Component {
         this.transform.position = this.transform.position.minus(
           new Vector(collision.depth.x, 0)
         );
-        if (this.isShell && collision.collider.layer === 'block') {
-          const otherGameObject = collision.collider.gameObject;
-          const damageable = otherGameObject.getComponent(Damageable);
-          if (damageable) damageable.damage();
+        if (this.isShell) {
+          if (collision.collider.layer === 'block') {
+            const otherGameObject = collision.collider.gameObject;
+            const damageable = otherGameObject.getComponent(Damageable);
+            if (damageable) damageable.damage();
+          } else {
+            if (!Game.muted) {
+              bump.currentTime = 0;
+              bump.play();
+            }
+          }
         }
         this.onHitWallFunctions.forEach(func => func());
       }

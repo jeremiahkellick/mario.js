@@ -2,6 +2,8 @@ import Time from './Time';
 import Renderer from './components/renderers/Renderer';
 import Component from './components/Component';
 import Vector from './Vector';
+import { gameOver } from './files';
+import { level1Music } from './files';
 
 const Game = {
   init(ctx) {
@@ -15,9 +17,12 @@ const Game = {
     setTimeout(this.update, 0);
     window.requestAnimationFrame(this.draw);
     window.Game = this;
+    this.over = false;
+    this.muted = true;
   },
 
   update() {
+    if (this.over) return;
     Component.start();
     Time.update();
     Array.from(this.gameObjects).forEach(gameObject => gameObject.update());
@@ -30,6 +35,7 @@ const Game = {
     Component.start();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, 512, 480);
+    if (this.over) return;
     if (this.playerTransform) {
       let { x, y } = this.playerTransform.position.minus(new Vector(256, 240));
       if (x < 0) x = 0;
@@ -53,6 +59,23 @@ const Game = {
     this.ctx.fillStyle = 'white';
     this.ctx.fillText(`$${this.coins}`, 450, 450);
     window.requestAnimationFrame(this.draw);
+  },
+
+  end() {
+    level1Music.muted = true;
+    if (!this.muted) {
+      gameOver.currentTime = 0;
+      gameOver.play();
+    }
+    this.over = true;
+    const game = document.querySelector('.game');
+    const restartButton = document.createElement('button');
+    restartButton.innerText = 'Try again';
+    restartButton.addEventListener('click', e => {
+      e.preventDefault();
+      location.reload();
+    });
+    game.appendChild(restartButton);
   },
 
   add(gameObject) {
