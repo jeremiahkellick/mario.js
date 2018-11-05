@@ -50,6 +50,13 @@ const Game = {
     Renderer.all.forEach(renderer => {
       if (renderer.visible) renderer.draw(this.ctx);
     });
+    this.ctx.fillStyle = 'white';
+    this.ctx.font = "32px sans-serif";
+    this.ctx.fillText(
+      'Thanks for playing!',
+      this.mapSize.x - 350,
+      this.mapSize.y - 211
+    );
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.beginPath();
     this.ctx.rect(0, 390, 512, 90);

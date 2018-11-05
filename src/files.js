@@ -8,6 +8,7 @@ import mushroomSoundPath from './audio/mushroom.mp3';
 import powerDownPath from './audio/power-down.mp3';
 import powerUpPath from './audio/power-up.mp3';
 import stompPath from './audio/stomp.mp3';
+import skidPath from './audio/skid.mp3';
 import stageImagePath from './images/stage.png';
 import enemiesImagePath from './images/enemies.png';
 import marioImagePath from './images/mario.png';
@@ -32,6 +33,8 @@ export const powerDown = new Audio(powerDownPath);
 export const powerUp = new Audio(powerUpPath);
 
 export const stompSound = new Audio(stompPath);
+
+export const skid = new Audio(skidPath);
 
 export const stageImage = new Image();
 stageImage.src = stageImagePath;

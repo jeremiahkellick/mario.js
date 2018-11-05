@@ -7,7 +7,7 @@ import Input from './inputs/Input';
 import Damageable from './Damageable';
 import Kickable from './Kickable';
 import Game from '../Game';
-import { bump, jumpSound } from '../files';
+import { bump, jumpSound, skid } from '../files';
 
 class Movement extends Component {
   constructor({
@@ -35,6 +35,7 @@ class Movement extends Component {
     this.onHitWallFunctions = new Set();
     this.lastKicked = new Date();
     this.isShell = isShell === undefined ? false : isShell;
+    this.lastSkid = new Date();
   }
 
   start() {
@@ -79,6 +80,11 @@ class Movement extends Component {
 
       frameAcceleration *= 3;
       this.skidding = true;
+      if (!Game.muted && new Date() - this.lastSkid >= 150) {
+        this.lastSkid = new Date();
+        skid.currentTime = 0;
+        skid.play();
+      }
     }
 
     if (this.accelerate) {
