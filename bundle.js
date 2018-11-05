@@ -656,7 +656,7 @@ function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/883ec0e25b2a6804c25d3e040e333358-bump.mp3";
+module.exports = "files/883ec0e25b2a6804c25d3e040e333358-bump.mp3";
 
 /***/ }),
 
@@ -667,7 +667,7 @@ module.exports = "/super-mario-bros-3/files/883ec0e25b2a6804c25d3e040e333358-bum
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/2f121335c507def96d3c2589059735de-coin.mp3";
+module.exports = "files/2f121335c507def96d3c2589059735de-coin.mp3";
 
 /***/ }),
 
@@ -678,7 +678,7 @@ module.exports = "/super-mario-bros-3/files/2f121335c507def96d3c2589059735de-coi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/7689076ea56fa496eff3cdaafa1f14f7-game-over.mp3";
+module.exports = "files/7689076ea56fa496eff3cdaafa1f14f7-game-over.mp3";
 
 /***/ }),
 
@@ -689,7 +689,7 @@ module.exports = "/super-mario-bros-3/files/7689076ea56fa496eff3cdaafa1f14f7-gam
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/ce1fb3b6acde711eba4011954004e5db-jump.mp3";
+module.exports = "files/ce1fb3b6acde711eba4011954004e5db-jump.mp3";
 
 /***/ }),
 
@@ -700,7 +700,7 @@ module.exports = "/super-mario-bros-3/files/ce1fb3b6acde711eba4011954004e5db-jum
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/cda6d435f6ca4cac896fb65575ad3ea5-kick.mp3";
+module.exports = "files/cda6d435f6ca4cac896fb65575ad3ea5-kick.mp3";
 
 /***/ }),
 
@@ -711,7 +711,7 @@ module.exports = "/super-mario-bros-3/files/cda6d435f6ca4cac896fb65575ad3ea5-kic
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/7b568da25170cd7be76065e9a1b59efe-level1-music.mp3";
+module.exports = "files/7b568da25170cd7be76065e9a1b59efe-level1-music.mp3";
 
 /***/ }),
 
@@ -722,7 +722,7 @@ module.exports = "/super-mario-bros-3/files/7b568da25170cd7be76065e9a1b59efe-lev
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/0969fa7c62d4a9f9b8ebfeefba8a5914-mushroom.mp3";
+module.exports = "files/0969fa7c62d4a9f9b8ebfeefba8a5914-mushroom.mp3";
 
 /***/ }),
 
@@ -733,7 +733,7 @@ module.exports = "/super-mario-bros-3/files/0969fa7c62d4a9f9b8ebfeefba8a5914-mus
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/d85ef9cf92574755d7b612b57886ee41-power-down.mp3";
+module.exports = "files/d85ef9cf92574755d7b612b57886ee41-power-down.mp3";
 
 /***/ }),
 
@@ -744,7 +744,7 @@ module.exports = "/super-mario-bros-3/files/d85ef9cf92574755d7b612b57886ee41-pow
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/f4cecbe1c78eebad673d514aebc359b0-power-up.mp3";
+module.exports = "files/f4cecbe1c78eebad673d514aebc359b0-power-up.mp3";
 
 /***/ }),
 
@@ -755,7 +755,7 @@ module.exports = "/super-mario-bros-3/files/f4cecbe1c78eebad673d514aebc359b0-pow
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/0bd48b8d00de42ab0d33a9bdceb97629-skid.mp3";
+module.exports = "files/0bd48b8d00de42ab0d33a9bdceb97629-skid.mp3";
 
 /***/ }),
 
@@ -766,7 +766,7 @@ module.exports = "/super-mario-bros-3/files/0bd48b8d00de42ab0d33a9bdceb97629-ski
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/746a2e13d6c9d60aa8fa84739c004d41-stomp.mp3";
+module.exports = "files/746a2e13d6c9d60aa8fa84739c004d41-stomp.mp3";
 
 /***/ }),
 
@@ -3341,7 +3341,7 @@ function (_Input) {
     document.addEventListener('keydown', function (e) {
       e.preventDefault();
 
-      if (e.key === ' ') {
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
         if (_this._canJump) {
           _this._canJump = false;
           _this._shouldJump = true;
@@ -3349,7 +3349,9 @@ function (_Input) {
       }
     });
     document.addEventListener('keyup', function (e) {
-      if (e.code === 'Space') _this._canJump = true;
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
+        _this._canJump = true;
+      }
     });
     return _this;
   }
@@ -3358,8 +3360,8 @@ function (_Input) {
     key: "move",
     get: function get() {
       var move = 0;
-      if (keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('A')) move -= 1;
-      if (keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('D')) move += 1;
+      if (keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('A') || keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('left')) move -= 1;
+      if (keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('D') || keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('right')) move += 1;
       return move;
     }
   }, {
@@ -3375,7 +3377,7 @@ function (_Input) {
   }, {
     key: "jump",
     get: function get() {
-      return keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('space');
+      return keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('space') || keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('W') || keymaster__WEBPACK_IMPORTED_MODULE_1___default.a.isPressed('up');
     }
   }]);
 
@@ -4706,7 +4708,7 @@ var getObjectType = function getObjectType(object, tilesets) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/ed22850787411a92d719f203c0a340c4-enemies.png";
+module.exports = "files/ed22850787411a92d719f203c0a340c4-enemies.png";
 
 /***/ }),
 
@@ -4717,7 +4719,7 @@ module.exports = "/super-mario-bros-3/files/ed22850787411a92d719f203c0a340c4-ene
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/9031f142f7c34848398aa09f124becbe-mario.png";
+module.exports = "files/9031f142f7c34848398aa09f124becbe-mario.png";
 
 /***/ }),
 
@@ -4728,7 +4730,7 @@ module.exports = "/super-mario-bros-3/files/9031f142f7c34848398aa09f124becbe-mar
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/6431c34bec693bb25b3dc1419daae2d0-npcs-and-items.png";
+module.exports = "files/6431c34bec693bb25b3dc1419daae2d0-npcs-and-items.png";
 
 /***/ }),
 
@@ -4739,7 +4741,7 @@ module.exports = "/super-mario-bros-3/files/6431c34bec693bb25b3dc1419daae2d0-npc
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/super-mario-bros-3/files/f6052e3ecf7e05c1ee1b0d8bffd1f2df-stage.png";
+module.exports = "files/f6052e3ecf7e05c1ee1b0d8bffd1f2df-stage.png";
 
 /***/ }),
 
