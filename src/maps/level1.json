@@ -228,7 +228,7 @@
                  "gid":68,
                  "height":16,
                  "id":49,
-                 "name":"",
+                 "name":"mushroom",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -259,6 +259,30 @@
                  "width":16,
                  "x":360,
                  "y":368
+                }, 
+                {
+                 "gid":296,
+                 "height":16,
+                 "id":65,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":592,
+                 "y":384
+                }, 
+                {
+                 "gid":148,
+                 "height":16,
+                 "id":66,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":608,
+                 "y":416
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -267,7 +291,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":56,
+ "nextobjectid":68,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.0",

@@ -5,6 +5,7 @@ import Time from '../Time';
 import Collider from './Collider';
 import Input from './inputs/Input';
 import Damageable from './Damageable';
+import Kickable from './Kickable';
 
 class Movement extends Component {
   constructor({
@@ -13,7 +14,9 @@ class Movement extends Component {
     groundAcceleration,
     speed,
     accelerate,
-    velocity
+    velocity,
+    blocking,
+    isShell
   }) {
     super();
     this.onGround = false;
@@ -26,8 +29,10 @@ class Movement extends Component {
     this.speed = speed === undefined ? 165 : speed;
     this.accelerate = accelerate === undefined ? false : accelerate;
     this.velocity = velocity || Vector.zero;
-
+    this.blocking = blocking === undefined ? ['obstacle', 'block'] : blocking;
     this.onHitWallFunctions = new Set();
+    this.lastKicked = new Date();
+    this.isShell = isShell === undefined ? false : isShell;
   }
 
   start() {
@@ -55,7 +60,10 @@ class Movement extends Component {
 
     if (this.collider && this.collider.layer === 'player') {
       this.handleDamagingCollisions();
+      this.handleKicking();
     }
+
+    if (this.collider && this.isShell) this.handleShellCollisions();
   }
 
   handleAcceleration(move) {
@@ -113,12 +121,17 @@ class Movement extends Component {
       new Vector(this.velocity.x * Time.deltaTime, 0)
     );
     if (this.collider) {
-      let collision = this.collider.checkAllCollisions(['obstacle', 'block']);
+      let collision = this.collider.checkAllCollisions(this.blocking);
       if (collision) {
         this.velocity.x = 0;
         this.transform.position = this.transform.position.minus(
           new Vector(collision.depth.x, 0)
         );
+        if (this.isShell && collision.collider.layer === 'block') {
+          const otherGameObject = collision.collider.gameObject;
+          const damageable = otherGameObject.getComponent(Damageable);
+          if (damageable) damageable.damage();
+        }
         this.onHitWallFunctions.forEach(func => func());
       }
     }
@@ -132,7 +145,7 @@ class Movement extends Component {
     if (this.collider) {
       const oneDirection = this.velocity.y > 0;
       let collision = this.collider.checkAllCollisions(
-        ['obstacle', 'block'],
+        this.blocking,
         oneDirection
       );
       if (collision) {
@@ -157,6 +170,7 @@ class Movement extends Component {
   }
 
   handleDamagingCollisions() {
+    if (new Date() - this.lastKicked <= 100) return;
     const collision = this.collider.checkAllCollisions(['enemy']);
     if (collision) {
       const depth = collision.depth;
@@ -164,7 +178,6 @@ class Movement extends Component {
       const damageable = otherGameObject.getComponent(Damageable);
       if (damageable && depth.y > 0 && depth.y < this.collider.size.y / 4) {
         if (this.velocity.y > -500) this.velocity.y = -500;
-        this.transform.position.y = collision.collider.rect.y2 - 8;
         damageable.stomp();
       } else {
         if (this.damageable) this.damageable.damage();
@@ -175,6 +188,26 @@ class Movement extends Component {
   onHitWall(func) {
     this.onHitWallFunctions.add(func);
     return () => this.onHitWallFunctions.delete(func);
+  }
+
+  handleKicking() {
+    const collision = this.collider.checkAllCollisions(['kickable']);
+    if (collision) {
+      const otherGameObject = collision.collider.gameObject;
+      const kickable = otherGameObject.getComponent(Kickable);
+      if (kickable) {
+        kickable.kick();
+        this.lastKicked = new Date();
+      }
+    }
+  }
+
+  handleShellCollisions() {
+    const collision = this.collider.checkAllCollisions(['enemy']);
+    if (collision) {
+      const otherGameObject = collision.collider.gameObject;
+      otherGameObject.destroy();
+    }
   }
 }
 

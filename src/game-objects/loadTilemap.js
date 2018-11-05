@@ -13,6 +13,7 @@ import { stageImage } from '../files';
 import createBoxCoin from './createBoxCoin';
 import createMushroom from './createMushroom';
 import createPiranhaPlant from './createPiranhaPlant';
+import createKoopa from './createKoopa';
 
 const tilesetsByFileName = { 'stage': stage };
 const imagesByFileName = { 'stage': stageImage };
@@ -88,6 +89,12 @@ const spawn = (object, tilesets) => {
       break;
     case 'piranhaplant':
       createPiranhaPlant(position);
+      break;
+    case 'redkoopa':
+      createKoopa(position, 'red');
+      break;
+    case 'greenkoopa':
+      createKoopa(position, 'green');
       break;
   }
 };

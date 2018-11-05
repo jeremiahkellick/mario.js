@@ -24,6 +24,14 @@
         {
          "id":221,
          "type":"piranhaplant"
+        }, 
+        {
+         "id":295,
+         "type":"redkoopa"
+        }, 
+        {
+         "id":369,
+         "type":"greenkoopa"
         }],
  "tilewidth":16,
  "transparentcolor":"#e0a3d8",

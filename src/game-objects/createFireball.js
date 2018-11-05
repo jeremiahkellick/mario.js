@@ -14,7 +14,9 @@ const createFireball = (position, velocity) => {
   fireball.addComponent(
     new Collider('hurtbox', new Vector(7, 7).times(2), true)
   );
-  fireball.addComponent(new SpriteRenderer(fireballSprite));
+  fireball.addComponent(
+    new SpriteRenderer(fireballSprite, 0, { flipped: velocity.x > 0 })
+  );
   fireball.addComponent(new FireballAnimator());
   fireball.addComponent(new Damaging());
   fireball.addComponent(new LinearMovement(velocity));

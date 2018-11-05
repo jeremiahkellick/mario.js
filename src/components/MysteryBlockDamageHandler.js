@@ -3,6 +3,7 @@ import Damageable from './Damageable';
 import MysteryBlockAnimator from './animators/MysteryBlockAnimator';
 import Transform from './Transform';
 import Vector from '../Vector';
+import Game from '../Game';
 
 class MysteryBlockDamageHandler extends Component {
   constructor(creator) {
@@ -17,7 +18,11 @@ class MysteryBlockDamageHandler extends Component {
     damageable.onDamage(() => {
       if (animator) animator.used = true;
       this.gameObject.removeComponent(damageable);
-      this.creator(transform.position.minus(new Vector(0, 32)));
+      const playerX = Game.playerTransform.position.x;
+      this.creator(
+        transform.position.minus(new Vector(0, 32)),
+        playerX - transform.position.x > 0 ? -1 : 1
+      );
     });
   }
 }

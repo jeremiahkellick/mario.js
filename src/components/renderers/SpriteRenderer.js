@@ -1,31 +1,16 @@
 import Renderer from './Renderer';
-import goombaSprite from '../../sprites/goombaSprite';
-import Health from '../Health';
-import GameObject from '../../game-objects/GameObject';
 import Transform from '../Transform';
-import Vector from '../../Vector';
 
 class SpriteRenderer extends Renderer {
   constructor(sprite, frame, options = {}) {
     super(options);
     this.sprite = sprite;
     this.frame = frame === undefined ? Object.keys(sprite.frames)[0] : frame;
-    this.flipped = false;
+    this.flipped = options.flipped === undefined ? false : options.flipped;
   }
 
   start() {
     this.transform = this.requireComponent(Transform);
-    const health = this.getComponent(Health);
-    if (health) {
-      health.onDeath(() => {
-        if (this.sprite.frames['dead'] !== undefined) {
-          const body = new GameObject();
-          body.addComponent(new Transform(this.transform.position));
-          body.addComponent(new SpriteRenderer(this.sprite, 'dead'));
-          setTimeout(() => body.destroy(), 250);
-        }
-      });
-    }
   }
 
   draw(ctx) {

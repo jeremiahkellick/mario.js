@@ -8,7 +8,6 @@ import SpriteRenderer from '../components/renderers/SpriteRenderer';
 import marioSprite from '../sprites/marioSprite';
 import MarioAnimator from '../components/animators/MarioAnimator';
 import Game from '../Game';
-import Health from '../components/Health';
 import Damageable from '../components/Damageable';
 import PowerManager from '../components/PowerManager';
 

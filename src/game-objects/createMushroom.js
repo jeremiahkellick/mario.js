@@ -8,13 +8,12 @@ import SpriteRenderer from '../components/renderers/SpriteRenderer';
 import mushroomSprite from '../sprites/mushroomSprite';
 import Mushroom from '../components/items/Mushroom';
 
-const createMushroom = position => {
+const createMushroom = (position, dir) => {
+  dir = dir === undefined ? [-1, 1][Math.floor(Math.random() * 2)] : dir;
   const mushroom = new GameObject();
   mushroom.addComponent(new Transform(position));
   mushroom.addComponent(new Movement({ speed: 75 }));
-  mushroom.addComponent(
-    new DirChangeInput([-1, 1][Math.floor(Math.random() * 2)])
-  );
+  mushroom.addComponent(new DirChangeInput(dir));
   mushroom.addComponent(
     new Collider('item', new Vector(16, 16).times(2), true)
   );
