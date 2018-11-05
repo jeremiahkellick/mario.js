@@ -4,7 +4,7 @@ module.exports = {
   context: __dirname,
   entry: './src/entry.js',
   output: {
-    path: path.resolve(__dirname),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   module: {
@@ -26,7 +26,8 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[hash]-[name].[ext]',
-              outputPath: 'files'
+              outputPath: 'files/',
+              publicPath: '/super-mario-bros-3/files/'
             }
           }
         ]
