@@ -28,7 +28,7 @@ const createMovingShell = (position, color = 'green', dir = -1) => {
   );
   shell.addComponent(new Damageable());
   shell.addComponent(new ShellAnimator());
-  shell.addComponent(new ShellDamageHandler());
+  shell.addComponent(new ShellDamageHandler(color));
 };
 
 export default createMovingShell;
