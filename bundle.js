@@ -4309,7 +4309,7 @@ var createMovingShell = function createMovingShell(position) {
   }));
   shell.addComponent(new _components_Damageable__WEBPACK_IMPORTED_MODULE_9__["default"]());
   shell.addComponent(new _components_animators_ShellAnimator__WEBPACK_IMPORTED_MODULE_10__["default"]());
-  shell.addComponent(new _components_ShellDamageHandler__WEBPACK_IMPORTED_MODULE_11__["default"]());
+  shell.addComponent(new _components_ShellDamageHandler__WEBPACK_IMPORTED_MODULE_11__["default"](color));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (createMovingShell);
