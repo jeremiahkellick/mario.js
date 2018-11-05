@@ -49,29 +49,29 @@ Only vanilla HTML, CSS, and JavaScript will be used to build the game
 
 ### Monday
 
-- [ ] Set up the game architecture
-- [ ] Draw Mario and the ground on screen
+- [x] Set up the game architecture
+- [x] Draw Mario and the ground on screen
 
 ### Tuesday
 
-- [ ] Basic movement and collision
-- [ ] Mario animation
+- [x] Basic movement and collision
+- [x] Mario animation
 
 ### Wednesday
 
-- [ ] Goomba movement and animation
-- [ ] Dying and restarting
-- [ ] Destroying enemies by jumping on them
+- [x] Goomba movement and animation
+- [x] Dying and restarting
+- [x] Destroying enemies by jumping on them
 
 ### Thursday
 
-- [ ] Basic level editing
+- [x] Basic level editing
 
 ### Friday
 
-- [ ] Mushroom power-up
-- [ ] Piranha plants
-- [ ] Koopas
+- [x] Mushroom power-up
+- [x] Piranha plants
+- [x] Koopas
 
 ### Saturday
 
@@ -82,7 +82,7 @@ Only vanilla HTML, CSS, and JavaScript will be used to build the game
 
 ### Sunday
 
-- [ ] Mapping out level 1
+- [x] Mapping out level 1
 - [ ] Winning
 
 ## Wireframes
