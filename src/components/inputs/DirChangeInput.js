@@ -34,6 +34,8 @@ class DirChangeInput extends Input {
   }
 
   get move() {
+    const playerPos = Game.playerTransform.position;
+    if (this.transform.position.distanceTo(playerPos) > 512) return 0;
     return this.dir;
   }
 }
