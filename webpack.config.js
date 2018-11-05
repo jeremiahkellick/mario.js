@@ -27,7 +27,7 @@ module.exports = {
             options: {
               name: '[hash]-[name].[ext]',
               outputPath: 'files/',
-              publicPath: '/super-mario-bros-3/files/'
+              publicPath: 'files/'
             }
           }
         ]

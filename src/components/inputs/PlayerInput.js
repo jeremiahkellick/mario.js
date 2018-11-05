@@ -8,7 +8,7 @@ class PlayerInput extends Input {
     this._shouldJump = false;
     document.addEventListener('keydown', e => {
       e.preventDefault();
-      if (e.key === ' ') {
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
         if (this._canJump) {
           this._canJump = false;
           this._shouldJump = true;
@@ -16,14 +16,16 @@ class PlayerInput extends Input {
       }
     });
     document.addEventListener('keyup', e => {
-      if (e.code === 'Space') this._canJump = true;
+      if (e.code === 'Space' || e.code === 'KeyW' || e.code === 'ArrowUp') {
+        this._canJump = true;
+      }
     });
   }
 
   get move() {
     let move = 0;
-    if (key.isPressed('A')) move -= 1;
-    if (key.isPressed('D')) move += 1;
+    if (key.isPressed('A') || key.isPressed('left')) move -= 1;
+    if (key.isPressed('D') || key.isPressed('right')) move += 1;
     return move;
   }
 
@@ -37,7 +39,7 @@ class PlayerInput extends Input {
   }
 
   get jump() {
-    return key.isPressed('space');
+    return key.isPressed('space') || key.isPressed('W') || key.isPressed('up');
   }
 }
 
