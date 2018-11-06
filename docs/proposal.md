@@ -89,16 +89,16 @@ Only vanilla HTML, CSS, and JavaScript will be used to build the game
 
 ### Moving
 
-![Movement](docs/movement.gif)
+![Movement](movement.gif)
 
 ### Dying
 
-![Dying](docs/dying.gif)
+![Dying](dying.gif)
 
 ### Destroying enemies
 
-![Destroying enemies](docs/destroying.gif)
+![Destroying enemies](destroying.gif)
 
 ### Powering up
 
-![Powering up](docs/powering-up.gif)
+![Powering up](powering-up.gif)
