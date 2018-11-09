@@ -1,4 +1,4 @@
-# Super Mario Bros. 3
+# Mario.js
 
 A clone of the first level of Super Mario Bros. 3 written in JavaScript.
 
