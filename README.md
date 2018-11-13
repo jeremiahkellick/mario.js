@@ -1,4 +1,4 @@
-[See it live](https://jeremiahkellick.github.io/mario.js/)
+[See it live](https://mario.js.jeremiahkellick.com/)
 
 # Mario.js
 
