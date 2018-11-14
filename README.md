@@ -1,4 +1,4 @@
-[See it live](https://mario.js.jeremiahkellick.com/)
+[See it live](https://tender-curran-67f13d.netlify.com/)
 
 # Mario.js
 
