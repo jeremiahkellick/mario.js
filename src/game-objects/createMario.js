@@ -16,14 +16,16 @@ const createMario = position => {
   const transform = new Transform(position);
   Game.playerTransform = transform;
   mario.addComponent(transform);
-  mario.addComponent(new Movement({ accelerate: true, airAcceleration: 200 }));
+  mario.addComponent(new Movement(
+    { accelerate: true, airAcceleration: 200, preventOffscreen: true }
+  ));
   mario.addComponent(new Collider('player', new Vector(10, 15).times(2), true));
   mario.addComponent(new PlayerInput());
   mario.addComponent(
     new SpriteRenderer(marioSprite, 'walk0', { offset: new Vector(0, 2) })
   );
   mario.addComponent(new MarioAnimator());
-  mario.addComponent(new Damageable);
+  mario.addComponent(new Damageable());
   mario.addComponent(new PowerManager());
 };
 

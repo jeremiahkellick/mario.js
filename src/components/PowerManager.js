@@ -31,7 +31,7 @@ class PowerManager extends Component {
           }
           break;
         default:
-          Game.end();
+          this.gameObject.destroy();
       }
     });
   }
@@ -51,6 +51,10 @@ class PowerManager extends Component {
     this.sprite.sprite = bigMarioSprite;
     this.collider.size.y = 46;
     this.power = 'mushroom';
+  }
+
+  onDestroy() {
+    Game.end();
   }
 }
 

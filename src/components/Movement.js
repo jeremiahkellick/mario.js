@@ -18,7 +18,8 @@ class Movement extends Component {
     accelerate,
     velocity,
     blocking,
-    isShell
+    isShell,
+    preventOffscreen
   }) {
     super();
     this.onGround = false;
@@ -36,6 +37,8 @@ class Movement extends Component {
     this.lastKicked = new Date();
     this.isShell = isShell === undefined ? false : isShell;
     this.lastSkid = new Date();
+    this.preventOffscreen = preventOffscreen === undefined
+                            ? false : preventOffscreen;
   }
 
   start() {
@@ -60,6 +63,18 @@ class Movement extends Component {
 
     this.moveX();
     this.moveY();
+    if (this.preventOffscreen) {
+      const pos = this.transform.position;
+      if (pos.x < 10) {
+        pos.x = 10;
+        if (this.velocity.x < 0) this.velocity.x = 0;
+      }
+      if (pos.x > Game.mapSize.x - 10) {
+        pos.x = Game.mapSize.x - 10;
+        if (this.velocity.x > 0) this.velocity.x = 0;
+      }
+      if (pos.y > Game.mapSize.y + 512) this.gameObject.destroy();
+    }
 
     if (this.collider && this.collider.layer === 'player') {
       this.handleDamagingCollisions();
