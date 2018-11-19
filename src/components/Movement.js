@@ -131,7 +131,9 @@ class Movement extends Component {
   handleJumping(jumpDown, jump) {
     const msSinceJumped = new Date() - this.lastJumped;
     if (this.accelerate && jump && this.lastJumped && msSinceJumped <= 400) {
-      this.velocity.y -= 17000 / (new Date() - this.lastJumped + 2000);
+      this.velocity.y -= 2700000
+                         / (new Date() - this.lastJumped + 2000)
+                         * Time.deltaTime;
     }
     if (this.onGround && jumpDown) {
       if (!Game.muted) {
@@ -139,7 +141,7 @@ class Movement extends Component {
         jumpSound.play();
       }
       this.lastJumped = new Date();
-      this.velocity.y = -0.34 * (Math.abs(this.velocity.x) + 1000);
+      this.velocity.y = -0.41 * (Math.abs(this.velocity.x) + 1000);
     }
   }
 
