@@ -12,6 +12,8 @@ body {
 
 #canvas {
   background: #94fafe;
+  background-image: url(images/background.jpg);
+  background-size: cover;
   height: 480px;
   width: 512px;
 }
@@ -31,14 +33,18 @@ body {
 button {
   color: black;
   cursor: pointer;
-  background: transparent;
+  background: white;
   border: 1px solid black;
   border-radius: 4px;
   font-size: 1.5em;
 }
 
 button:hover {
-  text-decoration: underline;
+  background: #f8f8f8;
+}
+
+.game button {
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .hidden {

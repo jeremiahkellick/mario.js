@@ -35,6 +35,8 @@ const Game = {
     Component.start();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, 512, 480);
+    this.ctx.fillStyle = '#94fafe';
+    this.ctx.fillRect(0, 0, 512, 480);
     if (this.over) return;
     if (this.playerTransform) {
       let { x, y } = this.playerTransform.position.minus(new Vector(256, 240));
