@@ -3,27 +3,24 @@ import level1 from './maps/level1.json';
 import loadTilemap from './game-objects/loadTilemap';
 import { level1Music } from './files';
 
+const startGame = () => {
+  Game.init(document.getElementById('canvas').getContext('2d'));
+  loadTilemap(level1);
+  const buttons = document.getElementById('buttons');
+  while (buttons.firstChild) buttons.removeChild(buttons.firstChild);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-  let played = false;
-  const muteEl = document.getElementById('mute');
-  muteEl.addEventListener('click', e => {
+  document.getElementById('play-with-sound').addEventListener('click', e => {
     e.preventDefault();
-    if (!played) {
-      level1Music.currentTime = 0;
-      level1Music.play();
-      played = true;
-      Game.muted = false;
-    } else {
-      level1Music.muted = !level1Music.muted;
-      Game.muted = level1Music.muted;
-    }
-    e.currentTarget.innerText = level1Music.muted ? 'Unmute' : 'Mute';
+    level1Music.play();
+    Game.muted = false;
+    startGame();
   });
-  document.getElementById('play').addEventListener('click', e => {
+
+  document.getElementById('play-without-sound').addEventListener('click', e => {
     e.preventDefault();
-    Game.init(document.getElementById('canvas').getContext('2d'));
-    loadTilemap(level1);
-    e.currentTarget.parentElement.removeChild(e.currentTarget);
-    muteEl.classList.remove('hidden');
+    Game.muted = true;
+    startGame();
   });
 });

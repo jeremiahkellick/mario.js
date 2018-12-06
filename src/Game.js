@@ -18,7 +18,6 @@ const Game = {
     window.requestAnimationFrame(this.draw);
     window.Game = this;
     this.over = false;
-    this.muted = true;
   },
 
   update() {
@@ -77,14 +76,14 @@ const Game = {
       gameOver.play();
     }
     this.over = true;
-    const game = document.querySelector('.game');
+    const buttons = document.getElementById('buttons');
     const restartButton = document.createElement('button');
     restartButton.innerText = 'Try again';
     restartButton.addEventListener('click', e => {
       e.preventDefault();
       location.reload();
     });
-    game.appendChild(restartButton);
+    buttons.appendChild(restartButton);
   },
 
   add(gameObject) {

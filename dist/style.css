@@ -23,11 +23,21 @@ body {
   position: relative;
 }
 
-.game button {
-  left: 50%;
+#buttons {
   position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#buttons button {
+  margin: 10px 0;
+  width: 256px;
 }
 
 button {
